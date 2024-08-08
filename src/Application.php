@@ -1,36 +1,45 @@
 <?php
-namespace syships\qiniu;
+namespace syships\zop;
 
-use Qiniu\Auth;
-use yii\base\Component;
-use yii\base\InvalidConfigException;
 
-/**
- * 
- */
-class Application extends Component
+class Application
 {
-    public $accessKey;
+    public $serverUrl;
+    public $action;
+    public $data;
+    public $companyId;
+    public $key;
 
-    public $secretKey;
-
-    public $options;
-
-    public function init()
-    {
-        parent::init();
-        if ($this->accessKey === null) {
-            throw new InvalidConfigException('Qiniu::accessKey must be set.');
-        }
-        if ($this->secretKey === null) {
-            throw new InvalidConfigException('Qiniu::secretKey must be set.');
-        }
+    public function __construct($action='', $data=[],$serverUrl='http://japi-test.zto.com/'){
+        $this->serverUrl = $serverUrl;
+        $this->action = $action;
+        $this->data = $data;
     }
 
     /**
-     * @return Auth
+     * @return bool
      */
-    public function Auth(){
-        return new Auth($this->accessKey, $this->secretKey, $this->options);
+    public function validate()
+    {
+        //todo 验证传参
+
+        return true;
+    }
+
+    /**
+     * @return bool|string
+     */
+    public function send()
+    {
+        if(!$this->validate()){
+            return false;
+        }
+        $properties = new ZopProperties($this->companyId, $this->key);
+        $client = new ZopClient($properties);
+        $request = new ZopRequest();
+        $request->setUrl($this->serverUrl.$this->action);
+        $request->setData(json_encode($this->data));
+        $res = $client->execute($request);
+        return $res;
     }
 }
