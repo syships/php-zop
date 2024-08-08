@@ -21,7 +21,7 @@ class Application {
         $properties = new ZopProperties($this->appid, $this->appsecret);
         $client = new ZopClient($properties);
         $request = new ZopRequest();
-        $request->setUrl($this->serverUrl.$action);
+        $request->setUrl($this->baseUrl.$action);
         $request->setData(json_encode($data));
         return $client->execute($request);
     }
