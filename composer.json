@@ -1,0 +1,22 @@
+{
+    "name": "syships/php-zop",
+    "description": "The zop SDK for the php",
+    "type": "php-extension",
+    "keywords": ["php","zop","extension"],
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "syships",
+            "email": "syships.cn@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "syships\\zop\\": "src/"
+        }
+    }
+}
